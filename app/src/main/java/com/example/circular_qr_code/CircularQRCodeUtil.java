@@ -27,14 +27,21 @@ import java.util.Map;
 public class CircularQRCodeUtil {
 
 
-
+    /**
+     * 生成圆形二维码
+     * @param text 需要编码的文本
+     * @param width 生成图片的宽度
+     * @param height 生成图片的高度
+     * @param color 圆点的颜色
+     * @param quietZone 边距
+     * @return 生成好的二维码
+     * @throws WriterException
+     */
     public static Bitmap generateQRCodeImage(String text, int width, int height, int color,int quietZone) throws WriterException {
         final Map<EncodeHintType, Object> encodingHints = new HashMap<>();
         encodingHints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         QRCode code = Encoder.encode(text, ErrorCorrectionLevel.H, encodingHints);
-        Bitmap image = renderQRImage(code, width, height, color,0);
-
-        return image;
+        return renderQRImage(code, width, height, color,quietZone);
     }
 
 
@@ -46,7 +53,7 @@ public class CircularQRCodeUtil {
         paint.setAntiAlias(true);
         paint.setColor(color);
         canvas.drawColor(Color.WHITE);
-        
+
         ByteMatrix input = code.getMatrix();
         if (input == null) {
             throw new IllegalStateException();
