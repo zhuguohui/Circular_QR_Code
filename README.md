@@ -7,4 +7,12 @@
 
 # 效果
 
-![image-20230526151953049](README.assets/image-20230526151953049.png)
+## 显示效果
+
+<img src="README.assets/image-20230531113633616.png" alt="image-20230531113633616" style="zoom:30%;" />
+
+## 识别效果
+
+
+
+<img src="README.assets/image-20230531113733455.png" alt="image-20230531113733455" style="zoom:30%;" />
