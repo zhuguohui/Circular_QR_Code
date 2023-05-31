@@ -12,7 +12,6 @@ import com.google.zxing.qrcode.encoder.ByteMatrix;
 import com.google.zxing.qrcode.encoder.Encoder;
 import com.google.zxing.qrcode.encoder.QRCode;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public class CircularQRCodeUtil {
     public static Bitmap generateQRCodeImage(String text, int width, int height, int color,int quietZone) throws WriterException {
         final Map<EncodeHintType, Object> encodingHints = new HashMap<>();
         encodingHints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-        QRCode code = Encoder.encode(text, ErrorCorrectionLevel.H, encodingHints);
+        QRCode code = Encoder.encode(text, ErrorCorrectionLevel.M, encodingHints);
         return renderQRImage(code, width, height, color,quietZone);
     }
 
@@ -69,8 +68,10 @@ public class CircularQRCodeUtil {
         int leftPadding = (outputWidth - (inputWidth * multiple)) / 2;
         int topPadding = (outputHeight - (inputHeight * multiple)) / 2;
         final int FINDER_PATTERN_SIZE = 7;
-        final float CIRCLE_SCALE_DOWN_FACTOR = 21f/30f;
+        final float CIRCLE_SCALE_DOWN_FACTOR = 30f/30f;
         int circleSize = (int) (multiple * CIRCLE_SCALE_DOWN_FACTOR);
+        float radius=circleSize*1.0f/2;
+        int cxStep=multiple/2;
 
         for (int inputY = 0, outputY = topPadding; inputY < inputHeight; inputY++, outputY += multiple) {
             for (int inputX = 0, outputX = leftPadding; inputX < inputWidth; inputX++, outputX += multiple) {
@@ -78,9 +79,9 @@ public class CircularQRCodeUtil {
                     if (!(inputX <= FINDER_PATTERN_SIZE && inputY <= FINDER_PATTERN_SIZE ||
                             inputX >= inputWidth - FINDER_PATTERN_SIZE && inputY <= FINDER_PATTERN_SIZE ||
                             inputX <= FINDER_PATTERN_SIZE && inputY >= inputHeight - FINDER_PATTERN_SIZE)) {
-                        int cx=outputX+circleSize;
-                        int cy=outputY+circleSize;
-                        canvas.drawCircle(cx,cy, circleSize >> 1,paint);
+                        int cx=outputX+cxStep;
+                        int cy=outputY+cxStep;
+                        canvas.drawCircle(cx,cy, radius,paint);
                     }
                 }
             }
